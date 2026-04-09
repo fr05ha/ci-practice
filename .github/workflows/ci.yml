@@ -11,3 +11,21 @@ jobs:
     with:
       python-version: '3.11'
       test-file: 'test-calculator.py'
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: test
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Simulate deployment
+        env:
+          TOKEN: ${{ secrets.DEPLOY_TOKEN }}
+          ENVIRONMENT: production
+        run: |
+          echo "Deploying to $ENVIRONMENT"
+          echo "Token length: ${#TOKEN}"
+          echo "Deployment complete"
